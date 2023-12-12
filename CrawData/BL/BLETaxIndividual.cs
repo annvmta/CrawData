@@ -49,7 +49,7 @@ namespace CrawData.BL
         private void SetDefaultHeadersGet()
         {
             _client.DefaultRequestHeaders.Clear();
-            _client.Timeout = TimeSpan.FromSeconds(120);
+            _client.Timeout = TimeSpan.FromSeconds(300);
             _client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
             _client.DefaultRequestHeaders.Add("Accept-Language", "vi-VN,vi;q=0.9");
             _client.DefaultRequestHeaders.Add("Connection", "keep-alive");
@@ -555,7 +555,7 @@ namespace CrawData.BL
             switch (Code)
             {
                 case "470":
-                    var nodeCaNhanct25 = xmldoc.SelectSingleNode("//msbld:CaNhanKeKhai/ct25", xmlNameSp);
+                    var nodeCaNhanct25 = xmldoc.SelectSingleNode("//msbld:CaNhanKeKhai/msbld:ct25", xmlNameSp);
                     if (nodeCaNhanct25 != null)
                     {
                         if (decimal.TryParse(nodeCaNhanct25.InnerText, out decimal result))
@@ -563,7 +563,7 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
-                    var nodeCaNhanct29 = xmldoc.SelectSingleNode("//msbld:CaNhanKeKhai/ct29", xmlNameSp);
+                    var nodeCaNhanct29 = xmldoc.SelectSingleNode("//msbld:CaNhanKeKhai/msbld:ct29", xmlNameSp);
                     if (nodeCaNhanct29 != null)
                     {
                         if (decimal.TryParse(nodeCaNhanct29.InnerText, out decimal result))
@@ -573,7 +573,7 @@ namespace CrawData.BL
                     }
                     break;
                 case "473":
-                    var nodeGTGTCt32 = xmldoc.SelectSingleNode("//msbld:SoThueGTGT/ct32", xmlNameSp);
+                    var nodeGTGTCt32 = xmldoc.SelectSingleNode("//msbld:SoThueGTGT/msbld:ct32", xmlNameSp);
                     if (nodeGTGTCt32 != null)
                     {
                         if (decimal.TryParse(nodeGTGTCt32.InnerText, out decimal result))
@@ -581,7 +581,7 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
-                    var nodeTNCNCt32 = xmldoc.SelectSingleNode("//msbld:SoThueTNCN/ct32", xmlNameSp);
+                    var nodeTNCNCt32 = xmldoc.SelectSingleNode("//msbld:SoThueTNCN/msbld:ct32", xmlNameSp);
                     if (nodeTNCNCt32 != null)
                     {
                         if (decimal.TryParse(nodeTNCNCt32.InnerText, out decimal result))
@@ -589,7 +589,7 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
-                    var nodeTTDBTongct5 = xmldoc.SelectSingleNode("//msbld:KKhaiThueTTDB/tong_ct5", xmlNameSp);
+                    var nodeTTDBTongct5 = xmldoc.SelectSingleNode("//msbld:KKhaiThueTTDB/msbld:tong_ct5", xmlNameSp);
                     if (nodeTTDBTongct5 != null)
                     {
                         if (decimal.TryParse(nodeTTDBTongct5.InnerText, out decimal result))
@@ -597,7 +597,7 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
-                    var nodeTTDBTongct7 = xmldoc.SelectSingleNode("//msbld:KKhaiThueTTDB/tong_ct7", xmlNameSp);
+                    var nodeTTDBTongct7 = xmldoc.SelectSingleNode("//msbld:KKhaiThueTTDB/msbld:tong_ct7", xmlNameSp);
                     if (nodeTTDBTongct7 != null)
                     {
                         if (decimal.TryParse(nodeTTDBTongct7.InnerText, out decimal result))
@@ -605,7 +605,7 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
-                    var nodeTaiNguyenTong = xmldoc.SelectSingleNode("//msbld:ThueTaiNguyen/tongCong", xmlNameSp);
+                    var nodeTaiNguyenTong = xmldoc.SelectSingleNode("//msbld:ThueTaiNguyen/msbld:tongCong", xmlNameSp);
                     if (nodeTaiNguyenTong != null)
                     {
                         if (decimal.TryParse(nodeTaiNguyenTong.InnerText, out decimal result))
@@ -613,7 +613,7 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
-                    var nodeBVMTTong = xmldoc.SelectSingleNode("//msbld:ThueBVMT/tongCong", xmlNameSp);
+                    var nodeBVMTTong = xmldoc.SelectSingleNode("//msbld:ThueBVMT/msbld:tongCong", xmlNameSp);
                     if (nodeBVMTTong != null)
                     {
                         if (decimal.TryParse(nodeBVMTTong.InnerText, out decimal result))
@@ -621,7 +621,7 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
-                    var nodePhiBVMTTong = xmldoc.SelectSingleNode("//msbld:PhiBVMT/tongCong", xmlNameSp);
+                    var nodePhiBVMTTong = xmldoc.SelectSingleNode("//msbld:PhiBVMT/msbld:tongCong", xmlNameSp);
                     if (nodePhiBVMTTong != null)
                     {
                         if (decimal.TryParse(nodePhiBVMTTong.InnerText, out decimal result))
@@ -813,7 +813,7 @@ namespace CrawData.BL
                                     {
                                         Name = tds[1].InnerText.Trim(),
                                         Message = tds[2].InnerText.Trim(),
-                                        SendDate = tds[3].InnerText.Trim()
+                                        SendDate = $"{tds[3].InnerText.Trim()} 12:00:00"
                                     };
                                     var downLoadTag = tds[4].Element("a");
                                     if (downLoadTag != null)
