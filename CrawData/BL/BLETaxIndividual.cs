@@ -12,6 +12,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Text.Json;
+using CrawData.Utils.Clients;
+
 namespace CrawData.BL
 {
     public class BLETaxIndividual
@@ -180,6 +182,8 @@ namespace CrawData.BL
             {
                 resMes = await _client.GetAsync("ICanhan/servlet/ImageServlet");
                 resMes.EnsureSuccessStatusCode();
+                //var decapcha = new DecapchaUtil();
+                //capcha = await decapcha.DeCapcha(await resMes.Content.ReadAsStreamAsync());
                 var folderPath = $"{Directory.GetCurrentDirectory()}\\CapchaImg\\capcha.png";
                 using (var fs = new FileStream(folderPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
                 {
@@ -481,6 +485,7 @@ namespace CrawData.BL
                 Console.WriteLine(ex.Message);
             }
         }
+
         private async Task DownLoadTransactionFile(EtaxSubmitted etaxSubmitted, string fileFormat)
         {
             HttpResponseMessage resMes = null;
@@ -635,6 +640,7 @@ namespace CrawData.BL
             }
             return debitAmount;
         }
+
         private async Task<string> GotoResearchNotification()
         {
             HttpResponseMessage resMes = null;
