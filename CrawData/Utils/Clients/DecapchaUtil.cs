@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CrawData.Model.Util;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace CrawData.Utils.Clients
 
         public DecapchaUtil()
         {
-            _client = new HttpClient() { BaseAddress = new Uri("https://aiservice.misa.vn/v2/captcha-decode/") };
+            _client = new HttpClient() { BaseAddress = new Uri("https://aiservice.misa.vn/v1/captcha-decode/") };
             _client.DefaultRequestHeaders.Add("x-api-key", "RDtZbUSo5yPYsOBmU4utkLDGH9p5qGFE");
             _client.DefaultRequestHeaders.Add("project", "misa-asp");
             _client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36");
@@ -22,23 +24,25 @@ namespace CrawData.Utils.Clients
 
         public async Task<string> DeCapcha(Stream imgstream)
         {
+            var capcha = "";
             try
             {
                 using (var mutilpartfm = new MultipartFormDataContent())
                 {
                     var fileStream = new StreamContent(imgstream);
                     mutilpartfm.Add(fileStream, name: "image", fileName: $"image_{DateTime.Now.Ticks}.jpg");
-                    var mes = await _client.PostAsync($"image?vendor=hddtgov", mutilpartfm);
+                    var mes = await _client.PostAsync($"image?vendor=thuecanhan", mutilpartfm);
                     mes.EnsureSuccessStatusCode();
                     string responBody = await mes.Content.ReadAsStringAsync();
-                    return responBody;
+                    var res = JsonConvert.DeserializeObject<Decapcha>(responBody);
+                    capcha = res.CapChaText;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            return ""; 
+            return capcha; 
         }
     }
 }

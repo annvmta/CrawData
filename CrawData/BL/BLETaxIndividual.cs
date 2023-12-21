@@ -182,8 +182,8 @@ namespace CrawData.BL
             {
                 resMes = await _client.GetAsync("ICanhan/servlet/ImageServlet");
                 resMes.EnsureSuccessStatusCode();
-                //var decapcha = new DecapchaUtil();
-                //capcha = await decapcha.DeCapcha(await resMes.Content.ReadAsStreamAsync());
+                var decapcha = new DecapchaUtil();
+                capcha = await decapcha.DeCapcha(await resMes.Content.ReadAsStreamAsync());
                 var folderPath = $"{Directory.GetCurrentDirectory()}\\CapchaImg\\capcha.png";
                 using (var fs = new FileStream(folderPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
                 {
@@ -421,6 +421,7 @@ namespace CrawData.BL
                                                     var formatType = (downLoadParam.Length >= 1) ? downLoadParam[1] : "";
                                                     await DownLoadTransactionFile(etaxSubmitted, formatType);
                                                 }
+
                                             }
 
                                             if (!string.IsNullOrWhiteSpace(etaxSubmitted.TransactionID) && notifys != null && notifys.Count > 0)
