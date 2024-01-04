@@ -374,13 +374,13 @@ namespace CrawData.BL
                                         TaxPeriod = lstTds[2].InnerText.Trim(),
                                         DeClarationType = lstTds[5].InnerText.Trim(),
                                         SubmitTimes = lstTds[6].InnerText.Trim(),
-                                        SubmitDate = lstTds[7].InnerText.Trim(),
-                                        TaxAgencyName = lstTds[8].InnerText.Trim(),
-                                        StateTitle = lstTds[9].InnerText.Trim()
+                                        SubmitDate = lstTds[8].InnerText.Trim(),
+                                        TaxAgencyName = lstTds[9].InnerText.Trim(),
+                                        StateTitle = lstTds[10].InnerText.Trim()
                                     };
 
                                     // tag tải xml
-                                    var downfileTag = lstTds[14].Element("a");
+                                    var downfileTag = lstTds[15].Element("a");
                                     if (downfileTag != null)
                                     {
                                         var downfileEl = downfileTag.Attributes["href"].Value;
