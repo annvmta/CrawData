@@ -751,6 +751,7 @@ namespace CrawData.BL
                 {
                     try
                     {
+                        itaxNoti.FileName = $"{itaxNoti.Name.Replace("/", "")}.xml";
                         var xmldoc = new XmlDocument();
                         var xmlString = await resMes.Content.ReadAsStringAsync();
                         xmldoc.LoadXml(xmlString);
