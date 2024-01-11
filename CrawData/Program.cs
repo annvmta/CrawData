@@ -15,7 +15,7 @@ namespace CrawData
         public static async Task Main(string[] args)
         {
             var bl = new BLETaxIndividual();
-            var data = await bl.GetEtaxSubmitteds("04/12/2021", "04/12/2022");
+            var data = await bl.GetEtaxSubmitteds("01/01/2022", "31/12/2022");
             var option = new JsonSerializerOptions
             {
                WriteIndented = true,

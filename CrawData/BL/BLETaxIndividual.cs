@@ -540,8 +540,8 @@ namespace CrawData.BL
                         {
                             etaxSubmitted.TaxAgencyCode = nodeAgencyCode.InnerText;
                         }
-                        decimal debitAmount = CaculteDebitAmount(xmldoc, etaxSubmitted.Code, xmlNameSp);
-                        etaxSubmitted.DebitAmount = debitAmount.ToString();
+                        string strdebitAmount = CaculteDebitAmount(xmldoc, etaxSubmitted.Code, xmlNameSp);
+                        etaxSubmitted.DebitAmount = strdebitAmount;
                     }
                     catch (Exception ex)
                     {
@@ -555,9 +555,10 @@ namespace CrawData.BL
             }
         }
 
-        private decimal CaculteDebitAmount(XmlDocument xmldoc, string Code, XmlNamespaceManager xmlNameSp)
+        private string CaculteDebitAmount(XmlDocument xmldoc, string Code, XmlNamespaceManager xmlNameSp)
         {
             decimal debitAmount = 0;
+            string strdebitAmount = null;
             switch (Code)
             {
                 case "470":
@@ -577,6 +578,7 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
+                    strdebitAmount = debitAmount.ToString();
                     break;
                 case "473":
                     var nodeGTGTCt32 = xmldoc.SelectSingleNode("//msbld:SoThueGTGT/msbld:ct32", xmlNameSp);
@@ -635,11 +637,12 @@ namespace CrawData.BL
                             debitAmount = debitAmount + result;
                         }
                     }
+                    strdebitAmount = debitAmount.ToString();
                     break;
                 default:
                     break;
             }
-            return debitAmount;
+            return strdebitAmount;
         }
 
         private async Task<string> GotoResearchNotification()
@@ -751,7 +754,10 @@ namespace CrawData.BL
                 {
                     try
                     {
-                        itaxNoti.FileName = $"{itaxNoti.Name.Replace("/", "")}.xml";
+                        itaxNoti.FileName = itaxNoti.Name.Replace("/", "");
+                        itaxNoti.FileName = itaxNoti.FileName.Split('-')[0];
+                        itaxNoti.FileName = string.Join("_", itaxNoti.FileName.Split(Path.GetInvalidFileNameChars()));
+                        itaxNoti.FileName = $"{itaxNoti.FileName}.xml";
                         var xmldoc = new XmlDocument();
                         var xmlString = await resMes.Content.ReadAsStringAsync();
                         xmldoc.LoadXml(xmlString);
