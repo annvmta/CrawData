@@ -627,8 +627,8 @@ namespace CrawData.BL
                         if (decimal.TryParse(nodeBVMTTong.InnerText, out decimal result))
                         {
                             debitAmount = debitAmount + result;
-                        }
                     }
+                        }
                     var nodePhiBVMTTong = xmldoc.SelectSingleNode("//msbld:PhiBVMT/msbld:tongCong", xmlNameSp);
                     if (nodePhiBVMTTong != null)
                     {
